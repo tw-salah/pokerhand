@@ -1,5 +1,5 @@
 import {card, Card} from "../src/card"
-import {highestCards, isFourOfKind, isFullHouse, isPair, isThreeOfKind, cards} from "../src/hand"
+import {highestCards, isFourOfKind, isFullHouse, isPair, isThreeOfKind, cards, isTwoPairs} from "../src/hand"
 
 describe('hand', () => {
     test('highest card in hand', () => {
@@ -25,5 +25,10 @@ describe('hand', () => {
     test('full house', () => {
         const hand = cards('2H', '2S', '2C', '3D', '3H')
         expect(isFullHouse(hand)).toStrictEqual([true, cards('2H', '2S', '2C', '3D', '3H')]);
+    })
+
+    test('two pairs', () => {
+        const hand = cards('2H', '2S', '5C', '3D', '3H')
+        expect(isTwoPairs(hand)).toStrictEqual([true, cards('2H', '2S', '3D', '3H')]);
     })
 })

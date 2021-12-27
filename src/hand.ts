@@ -1,4 +1,5 @@
 import {card, Card, CardShorthand, compareCard} from "./card"
+import {GroupCards} from "./group"
 
 export const cards = (...cards: CardShorthand[]): Card[] => {
     return cards.map(c => card(c))
@@ -12,49 +13,42 @@ export const highestCards = (cards: Card[]): Card => {
     }, first);
 }
 
-const groupByCardValue = (cards: Card[]): Map<string, Card[]> => {
-    const map = new Map<string, Card[]>();
-    cards.forEach(card => {
-        if (map.has(card.value)) {
-            const group = map.get(card.value) || [];
-            map.set(card.value, [...group, card])
-        } else {
-            map.set(card.value, [card])
-        }
-    })
-
-    return map;
-}
-
-const filterGroup = (group: Map<string, Card[]>, occurrence: number): [boolean, Card[]] => {
-    for(const [,v] of group.entries())  {
-        if (v.length === occurrence) return [true, v];
-    }
-
-    return [false, []];
-}
-
 export const isPair = (cards: Card[]): [boolean, Card[]] => {
-    const map = groupByCardValue(cards);
-    return filterGroup(map, 2);
+    const group = GroupCards
+            .byCardValue(cards)
+            .filter((k, v) => v.length === 2)
+
+    return (group.length === 1) ? [true, group.values()] : [false, []]
+}
+
+export const isTwoPairs = (cards: Card[]): [boolean, Card[]] => {
+    const group = GroupCards
+        .byCardValue(cards)
+        .filter((k, v) => v.length === 2)
+
+    return (group.length === 2) ? [true, group.values()] : [false, []]
 }
 
 export const isThreeOfKind = (cards: Card[]): [boolean, Card[]] => {
-    const map = groupByCardValue(cards);
-    return filterGroup(map, 3);
+    const group = GroupCards
+        .byCardValue(cards)
+        .filter((k, v) => v.length === 3)
+
+    return (group.length === 1) ? [true, group.values()] : [false, []]
 }
 
 export const isFourOfKind = (cards: Card[]): [boolean, Card[]] => {
-    const map = groupByCardValue(cards);
-    return filterGroup(map, 4);
+    const group = GroupCards
+        .byCardValue(cards)
+        .filter((k, v) => v.length === 4)
+
+    return (group.length === 1) ? [true, group.values()] : [false, []]
 }
 
 export const isFullHouse = (cards: Card[]): [boolean, Card[]] => {
-    const group = groupByCardValue(cards);
-    const [isPair, pairs] = filterGroup(group, 2);
-    const [isThreeOfKind, threes] = filterGroup(group, 3);
+    const group = GroupCards.byCardValue(cards)
+    const pair = group.filter((k, v) => v.length === 2)
+    const threes = group.filter((k, v) => v.length === 3)
 
-    return (isPair && isThreeOfKind)
-        ? [true, [...threes, ...pairs]]
-        : [false,[]];
+    return (pair.length === 1 && threes.length ===1) ? [true, [...threes.values(), ...pair.values()]] : [false, []]
 }
