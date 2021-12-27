@@ -13,6 +13,8 @@ export const highestCards = (cards: Card[]): Card => {
     }, first);
 }
 
+
+
 export const isPair = (cards: Card[]): [boolean, Card[]] => {
     const group = Group.byCardValue(cards).filter(countsEqual(2))
     return (group.length === 1)
@@ -76,4 +78,15 @@ export const isStraightFlush = (cards: Card[]): [boolean, Card[]] => {
     const [flush] = isFlush(cards)
 
     return (straight && flush) ? [true, sorted] : [false, []]
+}
+
+export const isHighCard = (cards: Card[]): [boolean, Card[]] => {
+    const group = Group.byCardValue(cards).filter(countsEqual(1))
+    const [hasStraight] = isStraight(cards)
+    const [hasFlush] = isFlush(cards)
+
+    const isHighCard = group.length === cards.length
+    return (isHighCard && !hasFlush && !hasStraight)
+        ? [true, [highestCards(cards)]]
+        : [false, []]
 }

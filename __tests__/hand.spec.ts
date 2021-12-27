@@ -8,7 +8,7 @@ import {
     cards,
     isTwoPairs,
     isFlush,
-    isStraight, isStraightFlush
+    isStraight, isStraightFlush, isHighCard
 } from "../src/hand"
 
 describe('hand', () => {
@@ -55,5 +55,15 @@ describe('hand', () => {
     test('straight flush', () => {
         const hand = cards('3D', '2D', '4D', '5D', '6D')
         expect(isStraightFlush(hand)).toStrictEqual([true, cards('2D', '3D', '4D', '5D', '6D')]);
+    })
+
+    test('high card', () => {
+        const straight = cards('3H', '2D', '4C', '5H', '6D')
+        const flush = cards('3H', '5H', '8H', 'TH', 'KH')
+        const highCards = cards('2H', '3S', '8C', '7D', '9H')
+
+        expect(isHighCard(straight)).toStrictEqual([false, []]);
+        expect(isHighCard(flush)).toStrictEqual([false, []]);
+        expect(isHighCard(highCards)).toStrictEqual([true, cards('9H')]);
     })
 })
