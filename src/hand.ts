@@ -9,7 +9,7 @@ export const highestCards = (cards: Card[]): Card => {
     const first = cards[0];
     return cards.reduce((c1, c2) => {
         const r = compareCard(c1, c2);
-        return (r <= 0) ? c1 : c2;
+        return (r >= 0) ? c1 : c2;
     }, first);
 }
 

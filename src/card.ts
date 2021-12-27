@@ -25,14 +25,11 @@ export const compareCard = (cardA: Card, cardB: Card): number => {
     const cardAIndex = cardValues.indexOf(cardA.value);
 
     if (cardBIndex === cardAIndex) return 0;
-    return cardBIndex > cardAIndex ? 1 : -1;
+    return cardAIndex > cardBIndex ? 1 : -1;
 }
 
 export const sort = (cards: Card[]): Card[] => {
-    return cards.sort((a, b) => {
-        if (a.index === b.index) return 0;
-        return a.index > b.index ? 1 : -1;
-    })
+    return cards.sort(compareCard)
 }
 
 export const display = (card: Card): string => `${card.value}${card.suite}`
