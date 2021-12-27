@@ -1,5 +1,7 @@
 import {Card, CardValue} from "./card"
 
+export const countsEqual = <T>(n: number) => (k: T, v: Card[]) => v.length === n
+
 export class GroupCards<T> {
     private readonly group: Map<T, Card[]>
 
