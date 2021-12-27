@@ -1,5 +1,5 @@
 import {card, Card, CardShorthand, compareCard, sort} from "./card"
-import {countsEqual, GroupCards} from "./group"
+import {countsEqual, Group} from "./group"
 
 export const cards = (...cards: CardShorthand[]): Card[] => {
     return cards.map(c => card(c))
@@ -14,45 +14,44 @@ export const highestCards = (cards: Card[]): Card => {
 }
 
 export const isPair = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardValue(cards).filter(countsEqual(2))
+    const group = Group.byCardValue(cards).filter(countsEqual(2))
     return (group.length === 1)
         ? [true, group.values()]
         : [false, []]
 }
 
 export const isTwoPairs = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardValue(cards).filter(countsEqual(2))
+    const group = Group.byCardValue(cards).filter(countsEqual(2))
     return (group.length === 2)
         ? [true, group.values()]
         : [false, []]
 }
 
 export const isThreeOfKind = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardValue(cards).filter(countsEqual(3))
+    const group = Group.byCardValue(cards).filter(countsEqual(3))
     return (group.length === 1)
         ? [true, group.values()]
         : [false, []]
 }
 
 export const isFourOfKind = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardValue(cards).filter(countsEqual(4))
+    const group = Group.byCardValue(cards).filter(countsEqual(4))
     return (group.length === 1)
         ? [true, group.values()]
         : [false, []]
 }
 
 export const isFullHouse = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardValue(cards)
-    const pair = group.filter(countsEqual(2))
-    const threes = group.filter(countsEqual(3))
+    const [hasPair, pairs] = isPair(cards)
+    const [hasThrees, threes] = isThreeOfKind(cards)
 
-    return (pair.length === 1 && threes.length === 1)
-        ? [true, [...threes.values(), ...pair.values()]]
+    return (hasPair && hasThrees)
+        ? [true, [...threes, ...pairs]]
         : [false, []]
 }
 
 export const isFlush = (cards: Card[]): [boolean, Card[]] => {
-    const group = GroupCards.byCardSuite(cards).filter(countsEqual(5))
+    const group = Group.byCardSuite(cards).filter(countsEqual(5))
     return (group.length === 1)
         ? [true, group.values()]
         : [false, []]
