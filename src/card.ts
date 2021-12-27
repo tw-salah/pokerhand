@@ -5,14 +5,18 @@ export type Suite = 'C' | 'D' | 'H' | 'S'
 export type Card = {
     value: CardValue;
     suite: Suite;
+    index: number;
 }
 export type CardShorthand = `${CardValue}${Suite}`
 
 export const card = (card: CardShorthand): Card => {
-  const [v, s] = card.split('')
+  const [value, suite]  = card.split('') as [CardValue, Suite]
+  const index = cardValues.indexOf(value)
+
   return {
-      value: v as CardValue,
-      suite: s as Suite
+      value,
+      suite,
+      index
   }
 }
 
@@ -22,6 +26,13 @@ export const compareCard = (cardA: Card, cardB: Card): number => {
 
     if (cardBIndex === cardAIndex) return 0;
     return cardBIndex > cardAIndex ? 1 : -1;
+}
+
+export const sort = (cards: Card[]): Card[] => {
+    return cards.sort((a, b) => {
+        if (a.index === b.index) return 0;
+        return a.index > b.index ? 1 : -1;
+    })
 }
 
 export const display = (card: Card): string => `${card.value}${card.suite}`

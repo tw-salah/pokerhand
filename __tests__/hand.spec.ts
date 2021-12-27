@@ -1,5 +1,15 @@
 import {card, Card} from "../src/card"
-import {highestCards, isFourOfKind, isFullHouse, isPair, isThreeOfKind, cards, isTwoPairs, isFlush} from "../src/hand"
+import {
+    highestCards,
+    isFourOfKind,
+    isFullHouse,
+    isPair,
+    isThreeOfKind,
+    cards,
+    isTwoPairs,
+    isFlush,
+    isStraight
+} from "../src/hand"
 
 describe('hand', () => {
     test('highest card in hand', () => {
@@ -35,5 +45,10 @@ describe('hand', () => {
     test('flush', () => {
         const hand = cards('3H', '5H', '8H', 'TH', 'KH')
         expect(isFlush(hand)).toStrictEqual([true, cards('3H', '5H', '8H', 'TH', 'KH')]);
+    })
+
+    test('straight', () => {
+        const hand = cards('3H', '2D', '4C', '5H', '6D')
+        expect(isStraight(hand)).toStrictEqual([true, cards('2D', '3H', '4C', '5H', '6D')]);
     })
 })

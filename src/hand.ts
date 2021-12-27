@@ -1,4 +1,4 @@
-import {card, Card, CardShorthand, compareCard} from "./card"
+import {card, Card, CardShorthand, compareCard, sort} from "./card"
 import {countsEqual, GroupCards} from "./group"
 
 export const cards = (...cards: CardShorthand[]): Card[] => {
@@ -56,4 +56,18 @@ export const isFlush = (cards: Card[]): [boolean, Card[]] => {
     return (group.length === 1)
         ? [true, group.values()]
         : [false, []]
+}
+
+export const isStraight = (cards: Card[]): [boolean, Card[]] => {
+    const sortedCards = sort(cards)
+
+    for (let i = 0; i < sortedCards.length - 1; i++) {
+        const current = sortedCards[i].index
+        const next = sortedCards[i + 1].index
+        if (current + 1 !== next) {
+            return [false, []]
+        }
+    }
+
+    return [true, sortedCards]
 }
