@@ -13,8 +13,6 @@ export const highestCards = (cards: Card[]): Card => {
     }, first);
 }
 
-
-
 export const isPair = (cards: Card[]): [boolean, Card[]] => {
     const group = Group.byCardValue(cards).filter(countsEqual(2))
     return (group.length === 1)
