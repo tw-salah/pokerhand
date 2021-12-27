@@ -28,8 +28,6 @@ export const compareCard = (cardA: Card, cardB: Card): number => {
     return cardAIndex > cardBIndex ? 1 : -1;
 }
 
-export const sort = (cards: Card[]): Card[] => {
-    return cards.sort(compareCard)
-}
+export const sort = (cards: Card[]): Card[] => cards.sort(compareCard)
 
 export const display = (card: Card): string => `${card.value}${card.suite}`
