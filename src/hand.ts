@@ -71,3 +71,10 @@ export const isStraight = (cards: Card[]): [boolean, Card[]] => {
 
     return [true, sortedCards]
 }
+
+export const isStraightFlush = (cards: Card[]): [boolean, Card[]] => {
+    const [straight, sorted] = isStraight(cards)
+    const [flush] = isFlush(cards)
+
+    return (straight && flush) ? [true, sorted] : [false, []]
+}

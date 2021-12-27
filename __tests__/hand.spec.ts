@@ -8,7 +8,7 @@ import {
     cards,
     isTwoPairs,
     isFlush,
-    isStraight
+    isStraight, isStraightFlush
 } from "../src/hand"
 
 describe('hand', () => {
@@ -50,5 +50,10 @@ describe('hand', () => {
     test('straight', () => {
         const hand = cards('3H', '2D', '4C', '5H', '6D')
         expect(isStraight(hand)).toStrictEqual([true, cards('2D', '3H', '4C', '5H', '6D')]);
+    })
+
+    test('straight flush', () => {
+        const hand = cards('3D', '2D', '4D', '5D', '6D')
+        expect(isStraightFlush(hand)).toStrictEqual([true, cards('2D', '3D', '4D', '5D', '6D')]);
     })
 })
