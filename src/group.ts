@@ -1,4 +1,4 @@
-import {Card, CardValue} from "./card"
+import {Card, CardValue, Suite} from "./card"
 
 export const countsEqual = <T>(n: number) => (k: T, v: Card[]) => v.length === n
 
@@ -25,30 +25,25 @@ export class GroupCards<T> {
     }
 
     static byCardValue = (cards: Card[]): GroupCards<CardValue> => {
-        const map = new Map<CardValue, Card[]>();
+        return GroupCards.create(cards, c => c.value)
+    }
+
+    static byCardSuite = (cards: Card[]): GroupCards<Suite> => {
+        return GroupCards.create(cards, c => c.suite)
+    }
+
+    private static create = <T>(cards: Card[], fn: (c: Card) => T): GroupCards<T> => {
+        const map = new Map<T, Card[]>();
         cards.forEach(card => {
-            if (map.has(card.value)) {
-                const group = map.get(card.value) || [];
-                map.set(card.value, [...group, card])
+            const k: T = fn(card)
+            if (map.has(k)) {
+                const group = map.get(k) || [];
+                map.set(k, [...group, card])
             } else {
-                map.set(card.value, [card])
+                map.set(k, [card])
             }
         })
 
-        return new GroupCards<CardValue>(map);
+        return new GroupCards<T>(map);
     }
-}
-
-export const groupByCardValue = (cards: Card[]): Map<string, Card[]> => {
-    const map = new Map<string, Card[]>();
-    cards.forEach(card => {
-        if (map.has(card.value)) {
-            const group = map.get(card.value) || [];
-            map.set(card.value, [...group, card])
-        } else {
-            map.set(card.value, [card])
-        }
-    })
-
-    return map;
 }

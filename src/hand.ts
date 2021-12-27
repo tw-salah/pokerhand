@@ -50,3 +50,10 @@ export const isFullHouse = (cards: Card[]): [boolean, Card[]] => {
         ? [true, [...threes.values(), ...pair.values()]]
         : [false, []]
 }
+
+export const isFlush = (cards: Card[]): [boolean, Card[]] => {
+    const group = GroupCards.byCardSuite(cards).filter(countsEqual(5))
+    return (group.length === 1)
+        ? [true, group.values()]
+        : [false, []]
+}
