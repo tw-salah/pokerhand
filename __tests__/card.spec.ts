@@ -1,16 +1,9 @@
-import {Card, compareCard, display} from "../src/card"
+import {Card, compareCard, display, card} from "../src/card"
 
 describe("card", () => {
     test("card comparison", () => {
-        const cardA: Card = {
-            value: '2',
-            suite: 'H'
-        }
-
-        const cardB: Card = {
-            value: '3',
-            suite: 'H'
-        }
+        const cardA = card('2H')
+        const cardB = card('3H')
 
         expect(compareCard(cardA, cardB)).toBe(1)
         expect(compareCard(cardB, cardA)).toBe(-1)
@@ -18,24 +11,14 @@ describe("card", () => {
     })
 
     test("comparing [T, J, Q, K, A]", () => {
-        const cardA: Card = {
-            value: 'K',
-            suite: 'H'
-        }
-
-        const cardB: Card = {
-            value: '2',
-            suite: 'H'
-        }
+        const cardA = card('KH')
+        const cardB = card('2H')
 
         expect(compareCard(cardA, cardB)).toBe(-1)
     })
 
     test("display card", () => {
-        const cardA: Card = {
-            value: '2',
-            suite: 'H'
-        }
+        const cardA = card('2H')
 
         expect(display(cardA)).toBe('2H')
     })

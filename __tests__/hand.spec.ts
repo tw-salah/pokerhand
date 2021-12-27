@@ -1,196 +1,29 @@
-import {Card} from "../src/card"
-import {highestCards, isFourOfKind, isFullHouse, isPair, isThreeOfKind} from "../src/hand"
+import {card, Card} from "../src/card"
+import {highestCards, isFourOfKind, isFullHouse, isPair, isThreeOfKind, cards} from "../src/hand"
 
 describe('hand', () => {
     test('highest card in hand', () => {
-        const hand: Card[] = [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '3',
-                suite: 'S'
-            },
-            {
-                value: '8',
-                suite: 'C'
-            },
-            {
-                value: '7',
-                suite: 'D'
-            },
-            {
-                value: '9',
-                suite: 'H'
-            }]
-
-            expect(highestCards(hand)).toStrictEqual({
-                value: '9',
-                suite: 'H'
-            });
+        const hand = cards('2H', '3S', '8C', '7D', '9H')
+            expect(highestCards(hand)).toStrictEqual(card('9H'));
     })
 
     test('pair', () => {
-        const hand: Card[] = [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '8',
-                suite: 'C'
-            },
-            {
-                value: '7',
-                suite: 'D'
-            },
-            {
-                value: '9',
-                suite: 'H'
-            }]
-
-        expect(isPair(hand)).toStrictEqual([true, [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            }
-        ]]);
+        const hand = cards('2H', '2S', '8C', '7D', '9H')
+        expect(isPair(hand)).toStrictEqual([true, cards('2H', '2S')]);
     })
 
     test('three of kind', () => {
-        const hand: Card[] = [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            },
-            {
-                value: '7',
-                suite: 'D'
-            },
-            {
-                value: '9',
-                suite: 'H'
-            }]
-
-        expect(isThreeOfKind(hand)).toStrictEqual([true, [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            }
-        ]]);
+        const hand = cards('2H', '2S', '2C', '7D','9H')
+        expect(isThreeOfKind(hand)).toStrictEqual([true, cards('2H', '2S', '2C')]);
     })
 
     test('three of kind', () => {
-        const hand: Card[] = [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            },
-            {
-                value: '2',
-                suite: 'D'
-            },
-            {
-                value: '9',
-                suite: 'H'
-            }]
-
-        expect(isFourOfKind(hand)).toStrictEqual([true, [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            },
-            {
-                value: '2',
-                suite: 'D'
-            }
-        ]]);
+        const hand = cards('2H', '2S', '2C', '2D', '9H')
+        expect(isFourOfKind(hand)).toStrictEqual([true, cards('2H', '2S', '2C', '2D')]);
     })
 
-    test('fullhouse', () => {
-        const hand: Card[] = [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            },
-            {
-                value: '3',
-                suite: 'D'
-            },
-            {
-                value: '3',
-                suite: 'H'
-            }]
-
-        expect(isFullHouse(hand)).toStrictEqual([true, [
-            {
-                value: '2',
-                suite: 'H'
-            },
-            {
-                value: '2',
-                suite: 'S'
-            },
-            {
-                value: '2',
-                suite: 'C'
-            },
-            {
-                value: '3',
-                suite: 'D'
-            },
-            {
-                value: '3',
-                suite: 'H'
-            }]]);
+    test('full house', () => {
+        const hand = cards('2H', '2S', '2C', '3D', '3H')
+        expect(isFullHouse(hand)).toStrictEqual([true, cards('2H', '2S', '2C', '3D', '3H')]);
     })
 })

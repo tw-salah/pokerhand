@@ -1,4 +1,8 @@
-import {Card, compareCard} from "./card"
+import {card, Card, CardShorthand, compareCard} from "./card"
+
+export const cards = (...cards: CardShorthand[]): Card[] => {
+    return cards.map(c => card(c))
+}
 
 export const highestCards = (cards: Card[]): Card => {
     const first = cards[0];
@@ -23,9 +27,9 @@ const groupByCardValue = (cards: Card[]): Map<string, Card[]> => {
 }
 
 const filterGroup = (group: Map<string, Card[]>, occurrence: number): [boolean, Card[]] => {
-    group.forEach((v) => {
+    for(const [,v] of group.entries())  {
         if (v.length === occurrence) return [true, v];
-    })
+    }
 
     return [false, []];
 }
